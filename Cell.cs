@@ -10,8 +10,8 @@ namespace LabyFights
     soit un seul objet, soit un seul combattant (avec zéro ou plusieurs objets).*/
     class Cell
     {
-        private bool n_Wall;
-        private bool s_Wall;
+        private bool n_wall;
+        private bool s_wall;
         private bool e_wall;
         private bool w_wall;
         private int cellSize = 5;
@@ -19,37 +19,37 @@ namespace LabyFights
 
         public Cell()
         {
-            this.n_Wall = true;
-            this.s_Wall = true;
+            this.n_wall = true;
+            this.s_wall = true;
             this.e_wall = true;
             this.w_wall = true;
             this.visited = false;
         }
         #region Get/Set
 
-        public bool N_Wall
+        public bool N_wall
         {
             get
             {
-                return n_Wall;
+                return n_wall;
             }
 
             set
             {
-                n_Wall = value;
+                n_wall = value;
             }
         }
 
-        public bool S_Wall
+        public bool S_wall
         {
             get
             {
-                return s_Wall;
+                return s_wall;
             }
 
             set
             {
-                s_Wall = value;
+                s_wall = value;
             }
         }
 
