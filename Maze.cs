@@ -10,22 +10,36 @@ namespace LabyFights
     rectangulaire entièrement entouré de murs. Les murs et la sortie sont des cases particulières*/
     class Maze
     {
-        private Cell[,] maze;
+        private Cell[,] myMaze;
         private int width;
         private int height;
+
+        public Cell[,] MyMaze
+        {
+            get
+            {
+                return myMaze;
+            }
+
+            set
+            {
+                myMaze = value;
+            }
+        }
 
         public Maze(int width,int height)
         {
             this.width = width;
             this.height = height;
-            this.maze = new Cell[height, width];
+            this.myMaze = new Cell[height, width];
             for(int row = 0; row < height; row++)
             {
-                for(int col = 0; col < width; width++)
+                for(int col = 0; col < width; col++)
                 {
-                    this.maze[row, col] = new Cell();
+                    this.myMaze[row, col] = new Cell();
                 }
             }
+            Dig(0, 0, new Stack<Tuple<int, int>>());
         }
 
         /// <summary>
@@ -39,19 +53,19 @@ namespace LabyFights
             Random rdm = new Random();
             List<Tuple<int,int>> myList = new List<Tuple<int, int>>();
 
-            if (row > 0 && !this.maze[row-1,col].Visited) //North neighbour
+            if (row > 0 && !this.myMaze[row-1,col].Visited) //North neighbour
             {
                 myList.Add(Tuple.Create(row - 1, col)); 
             }
-            if(row < this.maze.GetLength(0) - 1 && !this.maze[row + 1, col].Visited) //South neighbour
+            if(row < this.myMaze.GetLength(0) - 1 && !this.myMaze[row + 1, col].Visited) //South neighbour
             {
                 myList.Add(Tuple.Create(row + 1, col));
             }
-            if(col > 0 && !this.maze[row, col-1].Visited) //West neighbour
+            if(col > 0 && !this.myMaze[row, col-1].Visited) //West neighbour
             {
                 myList.Add(Tuple.Create(row, col-1));
             }
-            if(col < this.maze.GetLength(1) - 1 && !this.maze[row, col+1].Visited) //East neigbour
+            if(col < this.myMaze.GetLength(1) - 1 && !this.myMaze[row, col+1].Visited) //East neigbour
             {
                 myList.Add(Tuple.Create(row, col+1));
             }
@@ -61,7 +75,7 @@ namespace LabyFights
             }
             else
             {
-                int rdmInt = rdm.Next(4);
+                int rdmInt = rdm.Next(myList.Count);
                 return myList[rdmInt];
             }
         }
@@ -75,34 +89,34 @@ namespace LabyFights
         /// <param name="nextCol">next col</param>
         private void DestroyWall(int row,int col,int nextRow,int nextCol)
         {
-            int diffX = row - nextCol;
+            int diffX = row - nextRow;
             if(diffX == 1) //Remove current north and next south
             {
-                this.maze[row, col].N_wall = false;
-                this.maze[nextRow, nextCol].S_wall = false;
+                this.myMaze[row, col].N_wall = false;
+                this.myMaze[nextRow, nextCol].S_wall = false;
             }
             if(diffX == -1) //Remove current south and next north
             {
-                this.maze[row, col].S_wall = false;
-                this.maze[nextRow, nextCol].N_wall = false;
+                this.myMaze[row, col].S_wall = false;
+                this.myMaze[nextRow, nextCol].N_wall = false;
             }
             int diffY = col - nextCol;
             if(diffY == 1) //Remove current's left and next right
             {
-                this.maze[row, col].W_wall = false;
-                this.maze[nextRow, nextCol].E_wall = false;
+                this.myMaze[row, col].W_wall = false;
+                this.myMaze[nextRow, nextCol].E_wall = false;
             }
             if (diffY == -1) //Remove current's right and next left
             {
-                this.maze[row, col].E_wall = false;
-                this.maze[nextRow, nextCol].W_wall = false;
+                this.myMaze[row, col].E_wall = false;
+                this.myMaze[nextRow, nextCol].W_wall = false;
             }
         }
 
         private void Dig(int row,int col, Stack<Tuple<int, int>> stack)
         { 
 
-            this.maze[row, col].Visited = true;
+            this.myMaze[row, col].Visited = true;
             var neighbour = SelectNeighbour(row, col);
             int nextRow = neighbour.Item1;
             int nextCol = neighbour.Item2;
@@ -126,15 +140,36 @@ namespace LabyFights
             }
         }
 
-        public void printMaze()
+        public void printCell(int row,int col)
         {
-            for(int row = 0;row < maze.GetLength(0);row++)
-            {
-                for(int col = 0;col < maze.GetLength(1);col++)
-                {
 
+            if (this.myMaze[row, col].N_wall)
+            {
+            Console.SetCursorPosition(col * 4, (row * 4));
+            Console.Write("*****");
+                }
+            if (this.myMaze[row, col].S_wall)
+            {
+                Console.SetCursorPosition(col * 4, ((row+1) *4));
+                Console.Write("*****");
+            }
+            if (this.myMaze[row, col].W_wall)
+            {
+                for(int i = 0;i < 5; i++)
+                {
+                    Console.SetCursorPosition(col * 4, ((row*4)+i));
+                        Console.Write("*");
                 }
             }
+            if (this.myMaze[row, col].E_wall)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    Console.SetCursorPosition((col+1) * 5, ((row * 4) + i));
+                    Console.Write("*");
+                }
+            }
+
         }
     }
 }
