@@ -10,7 +10,7 @@ namespace LabyFights
     {
         static void Main(string[] args)
         {
-            Maze myMaze = new Maze(3, 3);
+            Maze myMaze = new Maze(10, 10,new Random());
             Console.Clear();
             for(int i = 0; i < myMaze.MyMaze.GetLength(0);i++)
             {

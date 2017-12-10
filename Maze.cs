@@ -13,6 +13,7 @@ namespace LabyFights
         private Cell[,] myMaze;
         private int width;
         private int height;
+        Random rdm;
 
         public Cell[,] MyMaze
         {
@@ -27,11 +28,12 @@ namespace LabyFights
             }
         }
 
-        public Maze(int width,int height)
+        public Maze(int width,int height, Random rdm)
         {
             this.width = width;
             this.height = height;
             this.myMaze = new Cell[height, width];
+            this.rdm = rdm;
             for(int row = 0; row < height; row++)
             {
                 for(int col = 0; col < width; col++)
@@ -50,7 +52,7 @@ namespace LabyFights
         /// <returns></returns>
         private Tuple<int,int> SelectNeighbour(int row,int col)
         {
-            Random rdm = new Random();
+            Random myRdm = this.rdm;
             List<Tuple<int,int>> myList = new List<Tuple<int, int>>();
 
             if (row > 0 && !this.myMaze[row-1,col].Visited) //North neighbour
