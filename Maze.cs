@@ -149,7 +149,7 @@ namespace LabyFights
             {
             Console.SetCursorPosition(col * 4, (row * 4));
             Console.Write("*****");
-                }
+            }
             if (this.myMaze[row, col].S_wall)
             {
                 Console.SetCursorPosition(col * 4, ((row+1) *4));
@@ -167,7 +167,7 @@ namespace LabyFights
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    Console.SetCursorPosition((col+1) * 5, ((row * 4) + i));
+                    Console.SetCursorPosition((col+1) * 4, ((row * 4) + i));
                     Console.Write("*");
                 }
             }
