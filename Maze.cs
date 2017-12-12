@@ -42,6 +42,7 @@ namespace LabyFights
                 }
             }
             Dig(0, 0, new Stack<Tuple<int, int>>());
+            InitWeapons();
         }
 
         /// <summary>
@@ -142,6 +143,24 @@ namespace LabyFights
             }
         }
 
+        /// <summary>
+        /// En début de programme, les objets occupent environ 10% des cases libres et y sontplacés aléatoirement.
+        /// </summary>
+        private void InitWeapons()
+        {
+            Random random = new Random();
+            int nbCellRequired = Convert.ToInt32((this.width * this.height) * 0.1);
+            while(nbCellRequired > 0)
+            {
+                int row = random.Next(this.height);
+                int col = random.Next(this.width);
+                if (this.myMaze[row, col].Weapon == null)
+                {
+                    myMaze[row, col].Weapon = new Weapon(random.Next(1,10));
+                    nbCellRequired -= 1;
+                }
+            }
+        }
         public void printCell(int row,int col)
         {
 
@@ -170,6 +189,12 @@ namespace LabyFights
                     Console.SetCursorPosition((col+1) * 4, ((row * 4) + i));
                     Console.Write("*");
                 }
+            }
+
+            if(this.myMaze[row,col].Weapon != null)
+            {
+                Console.SetCursorPosition((col * 4)+2, (row * 4)+2);
+                Console.Write(this.myMaze[row, col].Weapon.Damage);
             }
 
         }

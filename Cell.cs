@@ -16,6 +16,7 @@ namespace LabyFights
         private bool w_wall;
         private int cellSize = 5;
         private bool visited;
+        private Weapon weapon = null;
 
         public Cell()
         {
@@ -102,6 +103,19 @@ namespace LabyFights
             set
             {
                 visited = value;
+            }
+        }
+
+        public Weapon Weapon
+        {
+            get
+            {
+                return weapon;
+            }
+
+            set
+            {
+                weapon = value;
             }
         }
         #endregion
