@@ -14,7 +14,7 @@ namespace LabyFights
         private int width;
         private int height;
         Random rdm;
-
+        Tuple<int, int> exit;
         public Cell[,] MyMaze
         {
             get
@@ -25,6 +25,19 @@ namespace LabyFights
             set
             {
                 myMaze = value;
+            }
+        }
+
+        public Tuple<int, int> Exit
+        {
+            get
+            {
+                return exit;
+            }
+
+            set
+            {
+                exit = value;
             }
         }
 
@@ -42,6 +55,7 @@ namespace LabyFights
                 }
             }
             Dig(0, 0, new Stack<Tuple<int, int>>());
+            DigExit();
             InitWeapons();
         }
 
@@ -116,6 +130,12 @@ namespace LabyFights
             }
         }
 
+        /// <summary>
+        /// Backtracking recursif algo
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="stack"></param>
         private void Dig(int row,int col, Stack<Tuple<int, int>> stack)
         { 
 
@@ -154,16 +174,28 @@ namespace LabyFights
             {
                 int row = random.Next(this.height);
                 int col = random.Next(this.width);
-                if (this.myMaze[row, col].Weapon == null)
+                if (this.myMaze[row, col].Weapon == null && !this.myMaze[row,col].Exit)
                 {
-                    myMaze[row, col].Weapon = new Weapon(random.Next(1,10));
+                    myMaze[row, col].Weapon = new Weapon(random.Next(1,11));
                     nbCellRequired -= 1;
                 }
             }
         }
+
+        /// <summary>
+        /// Dig an exit at a random pos
+        /// </summary>
+        private void DigExit()
+        {
+            int row = rdm.Next(this.height);
+            int col = rdm.Next(this.width);
+            myMaze[row, col].Exit = true;
+            this.exit = Tuple.Create(row, col);
+        }
+
         public void printCell(int row,int col)
         {
-
+            Console.ForegroundColor = ConsoleColor.Cyan;
             if (this.myMaze[row, col].N_wall)
             {
             Console.SetCursorPosition(col * 4, (row * 4));
@@ -193,8 +225,21 @@ namespace LabyFights
 
             if(this.myMaze[row,col].Weapon != null)
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.SetCursorPosition((col * 4)+2, (row * 4)+2);
                 Console.Write(this.myMaze[row, col].Weapon.Damage);
+            }
+            else if (this.myMaze[row, col].Exit)
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.SetCursorPosition((col * 4) + 2, (row * 4) + 2);
+                Console.Write("*");
+            }
+            else if (this.myMaze[row, col].Fighter)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.SetCursorPosition((col * 4) + 2, (row * 4) + 2);
+                Console.Write("O");
             }
 
         }

@@ -17,6 +17,8 @@ namespace LabyFights
         private int cellSize = 5;
         private bool visited;
         private Weapon weapon = null;
+        private bool exit = false;
+        private bool fighter = false;
 
         public Cell()
         {
@@ -116,6 +118,32 @@ namespace LabyFights
             set
             {
                 weapon = value;
+            }
+        }
+
+        public bool Exit
+        {
+            get
+            {
+                return exit;
+            }
+
+            set
+            {
+                exit = value;
+            }
+        }
+
+        public bool Fighter
+        {
+            get
+            {
+                return fighter;
+            }
+
+            set
+            {
+                fighter = value;
             }
         }
         #endregion
