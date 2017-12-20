@@ -62,9 +62,3 @@ mémoriser les positions déjà vues.
  Bien sûr, s’il préfère se battre et qu’il en a l’occasion, il ne se déplace pas.
 • s’il est coincé, il reviendra sur ses pas ⇒ donc besoin de “dépiler” le trajet effectué.
 • s’il est complètement coincé... réinitialisation des positions visitées et du trajet.
-Deliverables
-The deliverables of the problem, to upload on Moodle before the 23th december at 22:00, are:
-1. Your code.
-2. A short report up to 4 pages indicating how your code works. This is an important part
-of deliverables!
-ESILV S7 1 2017–2018 — OOP Advanced concepts T. Raimbault — Page 2/2
