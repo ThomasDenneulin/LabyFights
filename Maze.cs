@@ -235,11 +235,17 @@ namespace LabyFights
                 Console.SetCursorPosition((col * 4) + 2, (row * 4) + 2);
                 Console.Write("*");
             }
-            else if (this.myMaze[row, col].Fighter)
+            if (this.myMaze[row, col].Fighter)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.SetCursorPosition((col * 4) + 2, (row * 4) + 2);
                 Console.Write("O");
+            }
+            if(!this.myMaze[row, col].Fighter && !this.myMaze[row,col].Exit && this.myMaze[row,col].Weapon == null)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.SetCursorPosition((col * 4) + 2, (row * 4) + 2);
+                Console.Write(" ");
             }
 
         }
