@@ -8,7 +8,7 @@ namespace LabyFights
 {
     /*Une case qui n’est pas un mur peut être libre ou occupée. Une case occupée peut contenir
     soit un seul objet, soit un seul combattant (avec zéro ou plusieurs objets).*/
-    class Cell
+    public class Cell
     {
         private bool n_wall;
         private bool s_wall;

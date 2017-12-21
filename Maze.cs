@@ -8,7 +8,7 @@ namespace LabyFights
 {
     /*Le labyrinthe est une entité unique, jouant le rôle d’élément central. Il est de forme
     rectangulaire entièrement entouré de murs. Les murs et la sortie sont des cases particulières*/
-    class Maze
+    public class Maze
     {
         private Cell[,] myMaze;
         private int width;
@@ -183,6 +183,26 @@ namespace LabyFights
         }
 
         /// <summary>
+        /// Place la liste d'armes aléatoirement sur le laby
+        /// </summary>
+        /// <param name="weapons"></param>
+        public void PlaceWeapons(List<Weapon> weapons)
+        {
+            Random random = new Random();
+            while (weapons.Count > 0)
+            {
+                int row = random.Next(this.height);
+                int col = random.Next(this.width);
+                if (this.myMaze[row, col].Weapon == null && !this.myMaze[row, col].Exit && !this.myMaze[row, col].Fighter)
+                {
+                    myMaze[row, col].Weapon = weapons[0];
+                    weapons.Remove(weapons[0]);
+                    printCell(row, col);
+                }
+            }
+        }
+
+        /// <summary>
         /// Dig an exit at a random pos
         /// </summary>
         private void DigExit()
@@ -196,6 +216,7 @@ namespace LabyFights
         public void printCell(int row,int col)
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.CursorVisible = false;
             if (this.myMaze[row, col].N_wall)
             {
             Console.SetCursorPosition(col * 4, (row * 4));

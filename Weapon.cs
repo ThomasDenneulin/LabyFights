@@ -7,7 +7,6 @@
         {
             this.damage = damage;
         }
-
         public int Damage
         {
             get
@@ -20,7 +19,6 @@
                 damage = value;
             }
         }
-
         public void UseWeapon()
         {
             if(damage > 0)

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LabyFights
 {
-    class Fighter
+    public class Fighter
     {
         int lifePoint;
         int damage;
@@ -15,11 +15,14 @@ namespace LabyFights
         Maze maze;
         int currentRow;
         int currentCol;
+        List<Weapon> equipement;
         List<Tuple<int, int>> visited;
-        Stack<Tuple<int, int>> visitedCell;
+        Stack<Tuple<int, int>> visitedCell; //Backtracking
         Random rdm;
+
         public Fighter(bool aggressif, Maze maze, int row, int col,Random rdm)
         {
+            this.equipement = new List<Weapon>();
             this.lifePoint = 100;
             this.damage = 10;
             this.aggressif = aggressif;
@@ -42,6 +45,11 @@ namespace LabyFights
             visitedCell = new Stack<Tuple<int, int>>();
             while(currentRow != this.maze.Exit.Item1 || currentCol != this.maze.Exit.Item2)
             {
+                if(maze.MyMaze[currentRow,currentCol].Weapon != null)
+                {
+                    this.equipement.Add(maze.MyMaze[currentRow, currentCol].Weapon);
+                    maze.MyMaze[currentRow, currentCol].Weapon = null;
+                }
                 //maze.MyMaze[currentRow, currentCol].Visited = true; //Make this cell as visited
                 visited.Add(Tuple.Create(currentRow, currentCol));
                 Tuple<int,int> nextCell = RandomAdjCell(); //Select a random cell
@@ -85,9 +93,15 @@ namespace LabyFights
                 }
             }
         }
+
+        /// <summary>
+        /// Fonction qui définie la logique de déplacement du personnage
+        ///
+        /// </summary>
+        /// <returns></returns>
         private Tuple<int,int> RandomAdjCell()
         {
-            List<Tuple<int, int>> myList = new List<Tuple<int, int>>();
+            List <Tuple<int, int>> myList = new List<Tuple<int, int>>();
 
             if (currentRow > 0 && !visited.Contains(Tuple.Create(currentRow-1,currentCol)) && !maze.MyMaze[currentRow,currentCol].N_wall)//North neighbour
             {
@@ -113,6 +127,19 @@ namespace LabyFights
             {
                 int rdmInt = rdm.Next(myList.Count);
                 return myList[rdmInt];
+            }
+        }
+
+        public List<Weapon> Equipement
+        {
+            get
+            {
+                return equipement;
+            }
+
+            set
+            {
+                equipement = value;
             }
         }
     }
